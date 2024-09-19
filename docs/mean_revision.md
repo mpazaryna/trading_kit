@@ -7,12 +7,14 @@ The Mean Reversion strategy is a trading approach based on the assumption that a
 ## Signal Logic
 
 ### Z-Score Calculation
+
 The Z-score is a statistical measure that indicates how many standard deviations a data point is from the mean. In the context of stock prices, the Z-score helps identify whether a price is significantly above or below its historical average.
 
 The Z-score is calculated using the formula:
 \[ Z = \frac{(X - \mu)}{\sigma} \]
 
 Where:
+
 - \( X \) is the current price.
 - \( \mu \) is the mean of the historical prices.
 - \( \sigma \) is the standard deviation of the historical prices.
@@ -53,6 +55,7 @@ Consider the following mock companies and their stock prices over a 10-day perio
 ### Calculating Z-Scores
 
 For **Company A**:
+
 - Mean (\( \mu \)): $50.4
 - Standard Deviation (\( \sigma \)): $2.52
 - Z-scores for the last two days:
@@ -60,6 +63,7 @@ For **Company A**:
   - Day 10: \( Z = \frac{(54 - 50.4)}{2.52} \approx 1.43 \) (Sell Signal)
 
 For **Company B**:
+
 - Mean (\( \mu \)): $202.5
 - Standard Deviation (\( \sigma \)): $7.07
 - Z-scores for the last two days:
