@@ -11,12 +11,14 @@ The Z-score is a statistical measure that indicates how many standard deviations
 
 The Z-score is calculated using the formula:
 \[ Z = \frac{(X - \mu)}{\sigma} \]
+
 Where:
 - \( X \) is the current price.
 - \( \mu \) is the mean of the historical prices.
 - \( \sigma \) is the standard deviation of the historical prices.
 
 ### Trading Signals
+
 The Mean Reversion strategy generates three types of trading signals based on the Z-score:
 
 1. **Buy Signal (1)**:
@@ -31,22 +33,58 @@ The Mean Reversion strategy generates three types of trading signals based on th
    - **Condition**: A hold signal is generated when the Z-score is between the negative exit threshold and the positive exit threshold (e.g., between -0.0 and 0.0).
    - **Interpretation**: This indicates that the price is within a normal range, and no action should be taken.
 
-### Example
-For a series of stock closing prices, the Mean Reversion strategy might generate the following signals:
+### Real-World Example
 
-- **Input Prices**: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-- **Generated Signals**: [1, 1, 0, 0, 0, 0, 0, 0, -1, -1]
+Consider the following mock companies and their stock prices over a 10-day period:
+
+| Day | Company A (Price) | Company B (Price) |
+|-----|-------------------|-------------------|
+| 1   | $50               | $200              |
+| 2   | $52               | $202              |
+| 3   | $51               | $198              |
+| 4   | $49               | $205              |
+| 5   | $48               | $210              |
+| 6   | $47               | $207              |
+| 7   | $48               | $208              |
+| 8   | $51               | $202              |
+| 9   | $55               | $195              |
+| 10  | $54               | $190              |
+
+### Calculating Z-Scores
+
+For **Company A**:
+- Mean (\( \mu \)): $50.4
+- Standard Deviation (\( \sigma \)): $2.52
+- Z-scores for the last two days:
+  - Day 9: \( Z = \frac{(55 - 50.4)}{2.52} \approx 1.83 \) (Sell Signal)
+  - Day 10: \( Z = \frac{(54 - 50.4)}{2.52} \approx 1.43 \) (Sell Signal)
+
+For **Company B**:
+- Mean (\( \mu \)): $202.5
+- Standard Deviation (\( \sigma \)): $7.07
+- Z-scores for the last two days:
+  - Day 9: \( Z = \frac{(195 - 202.5)}{7.07} \approx -1.06 \) (Buy Signal)
+  - Day 10: \( Z = \frac{(190 - 202.5)}{7.07} \approx -1.77 \) (Buy Signal)
+
+### Generated Signals
+
+- **Company A**: [0, 0, 0, 0, 0, 0, 0, 0, -1, -1]
+- **Company B**: [1, 1, 1, 1, 1, 1, 1, 1, 0, 0]
 
 In this example:
-- The first two prices are significantly below the mean, resulting in buy signals.
-- The last two prices are significantly above the mean, resulting in sell signals.
+
+- **Company A** generates sell signals on Days 9 and 10, indicating that the stock is overvalued and likely to decrease in price.
+
+- **Company B** generates buy signals on Days 9 and 10, indicating that the stock is undervalued and likely to increase in price.
 
 ## Impact on Trading Mechanics
 
 The Mean Reversion strategy can significantly impact trading mechanics in the following ways:
 
 - **Entry and Exit Points**: By identifying overbought and oversold conditions, traders can make informed decisions about when to enter or exit positions, potentially increasing profitability.
+
 - **Risk Management**: The strategy allows traders to set clear thresholds for buying and selling, which can help manage risk and reduce emotional decision-making.
+
 - **Market Timing**: The strategy relies on statistical analysis, which can improve market timing and enhance the likelihood of successful trades.
 
 ## Conclusion
