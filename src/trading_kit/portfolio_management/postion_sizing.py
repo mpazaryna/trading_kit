@@ -1,9 +1,25 @@
+"""
+This module provides functionality for calculating the position size for a trade based on various parameters.
+
+The main function, `calculate_position_size`, determines the number of shares or contracts to trade based on the
+account balance, risk per trade, entry price, and stop loss price.
+
+Assumptions:
+- The stop loss price must be less than the entry price to ensure a valid trade setup.
+- The risk per trade is provided as a percentage of the account balance.
+
+Limitations:
+- The function does not handle cases where the calculated position size is not a whole number.
+- The function assumes that the input parameters are valid and does not perform extensive validation.
+"""
+
+
 def calculate_position_size(
     account_balance: float,
     risk_per_trade: float,
     entry_price: float,
     stop_loss_price: float,
-) -> float:
+) -> int:
     """
     Calculate the position size for a trade based on account balance, risk per trade, entry price, and stop loss price.
 
@@ -14,16 +30,31 @@ def calculate_position_size(
     stop_loss_price (float): The price at which the trade will be exited to limit losses.
 
     Returns:
-    float: The position size (number of shares/contracts) to trade.
+    int: The position size (number of shares/contracts) to trade.
 
     Raises:
     ValueError: If stop_loss_price is greater than or equal to entry_price.
     """
+    # Ensure the stop loss price is less than the entry price to avoid invalid trades
     if stop_loss_price >= entry_price:
         raise ValueError("Stop loss price must be less than entry price.")
 
-    risk_amount = account_balance * (risk_per_trade / 100)
-    risk_per_share = entry_price - stop_loss_price
-    position_size = risk_amount / risk_per_share
+    # Calculate the total amount of money to risk on this trade
+    risk_amount = account_balance * (
+        risk_per_trade / 100
+    )  # Risk amount based on account balance and risk percentage
 
-    return position_size
+    # Calculate the risk per share/contract (difference between entry and stop loss prices)
+    risk_per_share = (
+        entry_price - stop_loss_price
+    )  # Determines potential loss per share
+
+    # Determine the position size by dividing the total risk amount by the risk per share
+    position_size = (
+        risk_amount / risk_per_share
+    )  # Calculates how many shares/contracts can be purchased
+
+    # Convert the position size to an integer (whole number of shares/contracts)
+    position_size = int(position_size)
+
+    return position_size  # Return the calculated position size
