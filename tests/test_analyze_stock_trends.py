@@ -2,7 +2,10 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from trading_kit.strategies.analyze_stock_trends import analyze_stock_trends
+from trading_kit.strategies.analyze_stock_trends import (
+    analyze_stock_trends,
+    analyze_stock_trends_from_json,
+)
 
 
 def test_analyze_stock_trends():
