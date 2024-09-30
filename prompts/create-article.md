@@ -136,6 +136,7 @@ Example structure:
 
 1. [Reference 1]
 2. [Reference 2]
+
 ```
 
 Ensure that your article is comprehensive, well-structured, and provides valuable insights into the development process and technical decisions made during the implementation.

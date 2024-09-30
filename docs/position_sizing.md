@@ -27,10 +27,12 @@ The basic formula for calculating position size is:
 \]
 
 Where:
+
 - **Risk Amount** = Account Balance × (Risk per Trade / 100)
 - **Risk per Share** = Entry Price - Stop Loss Price
 
 ### Example Calculation
+
 1. **Given**:
    - Account Balance: $10,000
    - Risk per Trade: 1% (which is $100)
@@ -38,15 +40,15 @@ Where:
    - Stop Loss Price: $48
 
 2. **Calculations**:
-   - **Risk Amount**: 
+   - **Risk Amount**:
      \[
      10000 \times (1 / 100) = 100
      \]
-   - **Risk per Share**: 
+   - **Risk per Share**:
      \[
      50 - 48 = 2
      \]
-   - **Position Size**: 
+   - **Position Size**:
      \[
      \frac{100}{2} = 50
      \]
@@ -54,15 +56,18 @@ Where:
 Thus, the trader should buy 50 shares of the stock.
 
 ## Position Sizing Strategies
+
 1. **Fixed Dollar Amount**: Risk a fixed dollar amount on each trade (e.g., $100).
 2. **Percentage of Account**: Risk a fixed percentage of the account balance (e.g., 1%).
 3. **Volatility-Based**: Adjust position size based on the volatility of the asset (e.g., using the Average True Range).
 4. **Kelly Criterion**: A mathematical formula used to determine the optimal size of a series of bets to maximize logarithmic wealth.
 
 ## Conclusion
+
 Position sizing is a fundamental aspect of trading that directly impacts risk management and overall trading success. By understanding and applying effective position sizing techniques, traders can enhance their ability to manage risk, preserve capital, and achieve consistent returns.
 
 ## References
+
 - Trading Psychology: The Psychology of Trading by Brett N. Steenbarger
 - Risk Management in Trading by David S. Nassar
 - The New Trading for a Living by Dr. Alexander Elder
