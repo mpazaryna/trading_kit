@@ -13,6 +13,8 @@ invoke test
 invoke lint
 ```
 
-## Bump version
+## Generate pdoc
 
-small change to bump version
+```sh
+pdoc ./src -o docs_api  
+```

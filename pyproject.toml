@@ -15,6 +15,7 @@ pandas = "^2.2.2"
 matplotlib = "^3.9.2"
 pandas-stubs = "^2.2.2.240909"
 isort = "^5.13.2"
+pdoc = "^14.7.0"
 
 
 [build-system]
