@@ -1,24 +1,29 @@
-from typing import Union
+from typing import List
 
+import numpy as np
 import pandas as pd
 
 
-def calculate_sma(data: pd.Series, window: int) -> pd.Series:
+def calculate_sma(data: List[float], window: int) -> List[float]:
     """Calculate Simple Moving Average."""
-    return data.rolling(window=window).mean()
+    series = pd.Series(data)
+    sma = series.rolling(window=window).mean()
+    return [None if pd.isna(x) else x for x in sma]
 
 
-def calculate_wma(data: pd.Series, window: int) -> pd.Series:
+def calculate_wma(data: List[float], window: int) -> List[float]:
     """Calculate Weighted Moving Average."""
+    series = pd.Series(data)
     weights = pd.Series(range(1, window + 1))  # Create weights [1, 2, ..., window]
-    return data.rolling(window).apply(
+    wma = series.rolling(window).apply(
         lambda prices: (prices * weights).sum() / weights.sum(), raw=True
     )
+    return [None if pd.isna(x) else x for x in wma]
 
 
 def calculate_wma_precision(
-    data: pd.Series, window: int, precision: int = 2
-) -> pd.Series:
+    data: List[float], window: int, precision: int = 2
+) -> List[float]:
     """
     Calculate Weighted Moving Average (WMA) with variable precision.
 
@@ -77,8 +82,9 @@ def calculate_wma_precision(
     4    106.6667
     dtype: float64
     """
+    series = pd.Series(data)
     weights = pd.Series(range(1, window + 1))
-    wma = data.rolling(window).apply(
+    wma = series.rolling(window).apply(
         lambda prices: (prices * weights).sum() / weights.sum(), raw=True
     )
-    return wma.round(precision)
+    return [None if pd.isna(x) else round(x, precision) for x in wma]
