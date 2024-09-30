@@ -1,11 +1,11 @@
 # trading_kit/strategies/mean_reversion.py
 
-from typing import Tuple
+from typing import List
 
 import pandas as pd
 
 
-def calculate_z_score(data: pd.Series) -> pd.Series:
+def calculate_z_score(data: List[float]) -> List[float]:
     """
     Calculate the Z-score of a given data series.
 
@@ -13,17 +13,19 @@ def calculate_z_score(data: pd.Series) -> pd.Series:
     In stock trading, it helps identify overbought or oversold conditions.
 
     Args:
-        data (pd.Series): The input price data series (e.g., closing prices of a stock).
+        data (List[float]): The input price data series (e.g., closing prices of a stock).
 
     Returns:
-        pd.Series: The Z-score of the input data, which can be used to assess price deviations.
+        List[float]: The Z-score of the input data, which can be used to assess price deviations.
     """
-    return (data - data.mean()) / data.std()
+    data_series = pd.Series(data)
+    z_scores = (data_series - data_series.mean()) / data_series.std()
+    return z_scores.tolist()
 
 
 def generate_mean_reversion_signals(
-    data: pd.Series, entry_threshold: float = 1.0, exit_threshold: float = 0.0
-) -> pd.Series:
+    data: List[float], entry_threshold: float = 1.0, exit_threshold: float = 0.0
+) -> List[int]:
     """
     Generate trading signals based on a mean reversion strategy.
 
@@ -32,27 +34,26 @@ def generate_mean_reversion_signals(
     and a sell signal is generated when the price is significantly above the mean (indicating it may be overvalued).
 
     Args:
-        data (pd.Series): The input price data series (e.g., closing prices of a stock).
+        data (List[float]): The input price data series (e.g., closing prices of a stock).
         entry_threshold (float): The Z-score threshold for entering a position (default is 1.0).
         exit_threshold (float): The Z-score threshold for exiting a position (default is 0.0).
 
     Returns:
-        pd.Series: A series of trading signals (-1 for sell, 1 for buy, 0 for hold).
+        List[int]: A list of trading signals (-1 for sell, 1 for buy, 0 for hold).
         A buy signal (1) indicates a potential long position,
         a sell signal (-1) indicates a potential short position,
         and a hold signal (0) indicates no action.
     """
     z_scores = calculate_z_score(data)
-    signals = pd.Series(0, index=data.index)
+    signals = [0] * len(data)
 
-    # Buy signal when Z-score is less than negative entry threshold
-    signals[z_scores < -entry_threshold] = 1  # Buy signal
-    # Sell signal when Z-score is greater than positive entry threshold
-    signals[z_scores > entry_threshold] = -1  # Sell signal
-    # Hold signal when Z-score is between the entry and exit thresholds
-    signals[(z_scores >= -exit_threshold) & (z_scores <= exit_threshold)] = (
-        0  # Hold signal
-    )
+    for i, z in enumerate(z_scores):
+        if z < -entry_threshold:
+            signals[i] = 1  # Buy signal
+        elif z > entry_threshold:
+            signals[i] = -1  # Sell signal
+        elif -exit_threshold <= z <= exit_threshold:
+            signals[i] = 0  # Hold signal
 
     return signals
 
