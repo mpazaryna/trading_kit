@@ -9,6 +9,7 @@ import pandas as pd
 import pytest
 
 from trading_kit.indicators.moving_averages import (
+    calculate_ema,
     calculate_sma,
     calculate_wma,
     calculate_wma_precision,
@@ -68,4 +69,37 @@ def test_calculate_wma_precision(precision, expected):
     """
     data = [100, 102, 104, 106, 108]
     result = calculate_wma_precision(data, window=3, precision=precision)
+    assert result == expected
+
+
+def test_calculate_ema():
+    """
+    Test the Exponential Moving Average (EMA) calculation with pure data.
+
+    This test uses a fixed set of sample data and a window size of 3 to verify
+    the correctness of the EMA calculation. The expected result is compared
+    against the actual result returned by the function.
+
+    Real-World Usage:
+    -----------------
+    In financial analysis, the EMA is used to give more weight to recent prices,
+    making it more responsive to new information. For example, a 3-day EMA of
+    stock prices can help traders identify short-term trends more quickly than
+    a simple moving average.
+
+    The EMA is also used to generate trading signals. When the price of an asset
+    crosses above its EMA, it may be considered a buy signal, indicating that the
+    asset's price is gaining upward momentum. Conversely, when the price crosses
+    below its EMA, it may be considered a sell signal, indicating that the asset's
+    price is losing momentum.
+
+    Examples:
+    ---------
+    >>> data = [1, 2, 3, 4, 5]
+    >>> calculate_ema_pure(data, window=3)
+    [None, None, 2.0, 3.5, 4.25]
+    """
+    data = [1, 2, 3, 4, 5]
+    expected = [None, None, 2.0, 3.5, 4.25]  # EMA with window=3
+    result = calculate_ema(data, window=3)
     assert result == expected

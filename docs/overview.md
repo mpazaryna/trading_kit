@@ -8,48 +8,53 @@ The `trading_kit` module is designed to provide a comprehensive set of tools for
 
 ### Technical Indicators
 
-- Moving Averages (Simple, Exponential, Weighted)
-- Oscillators (RSI, Stochastic, MACD)
-- Volatility Indicators (Bollinger Bands, ATR)
-- Volume Indicators (OBV, Money Flow Index)
-- Trend Indicators (ADX, Parabolic SAR)
+- [x] Moving Averages - Simple
+- [x] Moving Averages - Exponential
+- [x] Moving Averages - Weighted
+- [ ] Oscillators (RSI, Stochastic, MACD)
+- [ ] Volatility Indicators (Bollinger Bands, ATR)
+- [ ] Volume Indicators (OBV, Money Flow Index)
+- [ ] Trend Indicators (ADX, Parabolic SAR)
 
 ### Chart Patterns
 
-- Support and Resistance Detection
-- Trendline Analysis
-- Candlestick Patterns
-- Chart Formations (Head and Shoulders, Double Top/Bottom)
+- [x] Support and Resistance Detection
+- [ ] Trendline Analysis
+- [ ] Candlestick Patterns
+- [ ] Chart Formations (Head and Shoulders, Double Top/Bottom)
 
 ### Trading Strategies
 
-- Momentum Strategies
-- Mean Reversion Strategies
-- Breakout Strategies
-- Pairs Trading
-- Arbitrage Strategies
+- [x] Momentum Strategies
+- [x] Mean Reversion Strategies
+- [ ] Breakout Strategies
+- [ ] Pairs Trading
+- [ ] Arbitrage Strategies
+- [x] Weighted Mean Averages
 
 ### Order Types and Execution
 
-- Market Orders
-- Limit Orders
-- Stop Orders
-- Trailing Stop Orders
-- Bracket Orders
+- [ ] Market Orders
+- [ ] Limit Orders
+- [ ] Stop Orders
+- [ ] Trailing Stop Orders
+- [ ] Bracket Orders
 
 ### Portfolio Management
 
-- Position Sizing
-- Risk Management (e.g., Kelly Criterion)
-- Portfolio Optimization (e.g., Markowitz Model)
-- Rebalancing Strategies
+- [x] Position Sizing
+- [ ] Risk Management (e.g., Kelly Criterion)
+- [ ] Portfolio Optimization (e.g., Markowitz Model)
+- [ ] Rebalancing Strategies
 
 ### Backtesting and Performance Analysis
 
-- Event-Driven Backtesting Engine
-- Performance Metrics (e.g., Sharpe Ratio, Sortino Ratio, Maximum Drawdown)
-- Trade Analysis (Win Rate, Profit Factor, Average Win/Loss)
-- Monte Carlo Simulations for Strategy Robustness
+- [ ] Event-Driven Backtesting Engine
+- [ ] Performance Metrics - Sharpe Ratio
+- [ ] Performance Metrics - Sortino Ratio
+- [ ] Performance Metrics - Maximum Drawdown
+- [ ] Trade Analysis (Win Rate, Profit Factor, Average Win/Loss)
+- [ ] Monte Carlo Simulations for Strategy Robustness
 
 ## Implementation Guidelines
 
