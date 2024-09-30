@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-def backtest_strategy(data: pd.DataFrame, strategy_func, **params) -> pd.DataFrame:
+def backtest_strategy(data: dict, strategy_func, **params) -> dict:
     """
     Run backtest on the given strategy function.
 
@@ -10,20 +10,20 @@ def backtest_strategy(data: pd.DataFrame, strategy_func, **params) -> pd.DataFra
     a series of signals indicating when to buy or sell.
 
     Parameters:
-    - data (pd.DataFrame): A DataFrame containing historical market data, including price information.
+    - data (dict): A dictionary containing historical market data, including price information.
     - strategy_func (callable): A function that implements the trading strategy. It should accept the
       market data and any additional parameters defined in **params.
     - **params: Additional parameters to be passed to the strategy function.
 
     Returns:
-    - pd.DataFrame: A DataFrame containing the generated trading signals.
+    - dict: A dictionary containing the generated trading signals.
     """
     signals = strategy_func(data, **params)
     # ... additional backtesting logic ...
     return signals  # Placeholder for results
 
 
-def calculate_performance(results: pd.DataFrame) -> dict:
+def calculate_performance(results: dict) -> dict:
     """
     Calculate performance metrics from backtest results.
 
@@ -31,10 +31,19 @@ def calculate_performance(results: pd.DataFrame) -> dict:
     Currently, it returns a placeholder Sharpe ratio, which is a measure of risk-adjusted return.
 
     Parameters:
-    - results (pd.DataFrame): A DataFrame containing the results of the backtest, including returns.
+    - results (dict): A dictionary containing the results of the backtest, including returns.
 
     Returns:
     - dict: A dictionary containing performance metrics, such as the Sharpe ratio.
     """
-    # ... performance calculation logic ...
-    return {"sharpe_ratio": 1.5}  # Placeholder for metrics
+    returns = results.get("returns", [])
+    if not returns:
+        return {"sharpe_ratio": 0}
+
+    mean_return = sum(returns) / len(returns)
+    std_dev_return = (
+        sum((x - mean_return) ** 2 for x in returns) / (len(returns) - 1)
+    ) ** 0.5  # Using sample standard deviation
+    sharpe_ratio = mean_return / std_dev_return if std_dev_return != 0 else 0
+
+    return {"sharpe_ratio": sharpe_ratio}
