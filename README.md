@@ -5,3 +5,10 @@ The `trading_kit` module is designed to provide a comprehensive set of tools for
 ## Developer Notes
 
 Please refer to [code quality](/docs/code_quality.md) for specifics on expected coding standards.
+
+## Invoke
+
+```sh
+invoke test
+invoke lint
+```

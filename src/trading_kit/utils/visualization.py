@@ -1,3 +1,5 @@
+from typing import Optional
+
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -7,7 +9,7 @@ def plot_line_chart(
     title: str = "Line Chart",
     xlabel: str = "X-axis",
     ylabel: str = "Y-axis",
-    save_path: str = None,
+    save_path: Optional[str] = None,
 ) -> None:
     """Plot a line chart for the given data and optionally save it to a file."""
     plt.figure(figsize=(10, 5))

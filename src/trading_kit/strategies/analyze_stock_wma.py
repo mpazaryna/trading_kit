@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import numpy as np
 import pandas as pd
@@ -10,7 +10,7 @@ def pandas_api_analyze_stock_trends(
     short_window: int = 10,
     long_window: int = 30,
     precision: int = 2,
-) -> Dict[str, List[float]]:
+) -> Dict[str, List[Optional[float]]]:
     """
     Analyze stock price trends using Weighted Moving Averages (WMA) with pandas operations.
 
@@ -32,7 +32,7 @@ def pandas_api_analyze_stock_trends(
 
     Returns:
     --------
-    Dict[str, List[float]]
+    Dict[str, List[Optional[float]]]
         A dictionary containing:
         - 'short_wma': List of short-term WMA values (None for initial periods)
         - 'long_wma': List of long-term WMA values (None for initial periods)
@@ -61,7 +61,9 @@ def pandas_api_analyze_stock_trends(
 
     # Convert results back to lists for API-friendly output, replacing NaN with None
     return {
-        "short_wma": [None if pd.isna(x) else x for x in df["short_wma"].tolist()],
-        "long_wma": [None if pd.isna(x) else x for x in df["long_wma"].tolist()],
+        "short_wma": [
+            None if pd.isna(x) else float(x) for x in df["short_wma"].tolist()
+        ],
+        "long_wma": [None if pd.isna(x) else float(x) for x in df["long_wma"].tolist()],
         "signals": df["signal"].tolist(),
     }
