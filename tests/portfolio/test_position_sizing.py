@@ -1,6 +1,6 @@
 import pytest
 
-from trading_kit.portfolio_management.postion_sizing import calculate_position_size
+from trading_kit.portfolio.position_sizing import calculate_position_size
 
 
 def test_calculate_position_size():

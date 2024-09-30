@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from src.trading_kit.backtesting.engine import backtest_strategy, calculate_performance
+from trading_kit.backtesting.engine import backtest_strategy, calculate_performance
 
 
 def mock_strategy(data: pd.DataFrame, threshold: float) -> pd.Series:
