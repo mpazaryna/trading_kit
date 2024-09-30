@@ -12,3 +12,7 @@ Please refer to [code quality](/docs/code_quality.md) for specifics on expected 
 invoke test
 invoke lint
 ```
+
+## Bump version
+
+small change to bump version
