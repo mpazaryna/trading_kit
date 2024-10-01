@@ -11,10 +11,5 @@ Please refer to [code quality](/docs/code_quality.md) for specifics on expected 
 ```sh
 invoke test
 invoke lint
-```
-
-## Generate pdoc
-
-```sh
-pdoc ./src -o docs_api  
+invoke pdoc
 ```

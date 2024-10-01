@@ -251,17 +251,19 @@ def calculate_ema(data: List[float], window: int) -> List[Optional[float]]:
     if window <= 0:
         raise ValueError("Window size must be a positive integer")
 
-    ema = [None] * len(data)
+    ema: List[Optional[float]] = [None] * len(data)
     alpha = 2 / (window + 1)
     for i in range(len(data)):
         if i < window - 1:
             ema[i] = None
         elif i == window - 1:
-            ema[i] = (
-                sum(data[:window]) / window
-            )  # Simple average for the first EMA value
+            ema[i] = sum(data[:window]) / window
         else:
-            ema[i] = alpha * data[i] + (1 - alpha) * ema[i - 1]
+            previous_ema = ema[i - 1] if ema[i - 1] is not None else 0.0
+            assert (
+                previous_ema is not None
+            )  # Ensure type checker knows this is not None
+            ema[i] = alpha * data[i] + (1 - alpha) * previous_ema
     return ema
 
 
@@ -311,7 +313,7 @@ def calculate_ema_pure(data: List[float], window: int) -> List[Optional[float]]:
     if window <= 0:
         raise ValueError("Window size must be a positive integer")
 
-    ema = [None] * len(data)
+    ema: List[Optional[float]] = [None] * len(data)
     alpha = 2 / (window + 1)
     for i in range(len(data)):
         if i == 0:
@@ -319,8 +321,9 @@ def calculate_ema_pure(data: List[float], window: int) -> List[Optional[float]]:
         elif i < window - 1:
             ema[i] = None
         else:
-            if ema[i - 1] is None:
-                ema[i] = data[i]
-            else:
-                ema[i] = alpha * data[i] + (1 - alpha) * ema[i - 1]
+            previous_ema = ema[i - 1] if ema[i - 1] is not None else 0.0
+            assert (
+                previous_ema is not None
+            )  # Ensure type checker knows this is not None
+            ema[i] = alpha * data[i] + (1 - alpha) * previous_ema
     return ema
