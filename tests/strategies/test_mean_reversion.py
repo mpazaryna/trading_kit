@@ -3,6 +3,7 @@
 import pandas as pd
 import pytest
 
+from trading_kit.exceptions import InvalidDataError, InvalidThresholdError
 from trading_kit.strategies.mean_reversion import (
     calculate_z_score,
     generate_mean_reversion_signals,
@@ -113,6 +114,57 @@ def test_calculate_z_score_real_world_example():
 
     # Assert that the calculated Z-scores match the expected values
     assert calculated_z_scores_a == pytest.approx(expected_z_scores_a, rel=1e-5)
+
+
+# Additional tests can be added here...
+
+
+def test_calculate_z_score_invalid_data():
+    with pytest.raises(InvalidDataError, match="Input data must be a list."):
+        calculate_z_score("not a list")
+
+    with pytest.raises(
+        InvalidDataError, match="All elements in the input data must be numbers."
+    ):
+        calculate_z_score([1, 2, "three", 4])
+
+    with pytest.raises(InvalidDataError, match="Input data list cannot be empty."):
+        calculate_z_score([])
+
+
+def test_generate_mean_reversion_signals_invalid_data():
+    with pytest.raises(InvalidDataError, match="Input data must be a list."):
+        generate_mean_reversion_signals("not a list")
+
+    with pytest.raises(
+        InvalidDataError, match="All elements in the input data must be numbers."
+    ):
+        generate_mean_reversion_signals([1, 2, "three", 4])
+
+    with pytest.raises(InvalidDataError, match="Input data list cannot be empty."):
+        generate_mean_reversion_signals([])
+
+
+def test_generate_mean_reversion_signals_invalid_thresholds():
+    data = [1, 2, 3, 4, 5]
+
+    with pytest.raises(
+        InvalidThresholdError, match="Entry threshold must be a number."
+    ):
+        generate_mean_reversion_signals(data, entry_threshold="not a number")
+
+    with pytest.raises(InvalidThresholdError, match="Exit threshold must be a number."):
+        generate_mean_reversion_signals(data, exit_threshold="not a number")
+
+    with pytest.raises(
+        InvalidThresholdError, match="Entry threshold must be non-negative."
+    ):
+        generate_mean_reversion_signals(data, entry_threshold=-1)
+
+    with pytest.raises(
+        InvalidThresholdError, match="Exit threshold must be non-negative."
+    ):
+        generate_mean_reversion_signals(data, exit_threshold=-1)
 
 
 # Additional tests can be added here...

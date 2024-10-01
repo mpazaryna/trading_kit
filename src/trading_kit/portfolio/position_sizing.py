@@ -39,6 +39,24 @@ def calculate_position_size(
     if stop_loss_price >= entry_price:
         raise ValueError("Stop loss price must be less than entry price.")
 
+    # Ensure account balance is positive
+    if account_balance <= 0:
+        raise ValueError("Account balance must be greater than zero.")
+
+    # Ensure risk per trade is a positive percentage
+    if risk_per_trade <= 0 or risk_per_trade > 100:
+        raise ValueError(
+            "Risk per trade must be a positive percentage (0 < risk_per_trade <= 100)."
+        )
+
+    # Ensure entry price is positive
+    if entry_price <= 0:
+        raise ValueError("Entry price must be greater than zero.")
+
+    # Ensure stop loss price is positive
+    if stop_loss_price <= 0:
+        raise ValueError("Stop loss price must be greater than zero.")
+
     # Calculate the total amount of money to risk on this trade
     risk_amount = account_balance * (
         risk_per_trade / 100

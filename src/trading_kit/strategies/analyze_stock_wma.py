@@ -38,32 +38,45 @@ def pandas_api_analyze_stock_trends(
         - 'long_wma': List of long-term WMA values (None for initial periods)
         - 'signals': List of buy/sell signals (1 for buy, -1 for sell, 0 for hold)
     """
-    # Convert input data to pandas DataFrame
-    df = pd.DataFrame({"date": pd.to_datetime(dates), "price": prices})
-    df.set_index("date", inplace=True)
+    try:
+        # Validate input lengths
+        if len(dates) != len(prices):
+            raise ValueError("The length of dates and prices must be the same.")
 
-    # Calculate Weighted Moving Averages
-    def weighted_moving_average(data, window):
-        weights = pd.Series(range(1, window + 1))
-        return data.rolling(window=window).apply(
-            lambda x: (x * weights).sum() / weights.sum()
+        # Convert input data to pandas DataFrame
+        df = pd.DataFrame({"date": pd.to_datetime(dates), "price": prices})
+        df.set_index("date", inplace=True)
+
+        # Calculate Weighted Moving Averages
+        def weighted_moving_average(data, window):
+            if window <= 0:
+                raise ValueError("Window size must be a positive integer.")
+            weights = pd.Series(range(1, window + 1))
+            return data.rolling(window=window).apply(
+                lambda x: (x * weights).sum() / weights.sum()
+            )
+
+        df["short_wma"] = weighted_moving_average(df["price"], short_window).round(
+            precision
+        )
+        df["long_wma"] = weighted_moving_average(df["price"], long_window).round(
+            precision
         )
 
-    df["short_wma"] = weighted_moving_average(df["price"], short_window).round(
-        precision
-    )
-    df["long_wma"] = weighted_moving_average(df["price"], long_window).round(precision)
+        # Generate buy/sell signals
+        df["signal"] = 0
+        df.loc[df["short_wma"] > df["long_wma"], "signal"] = 1  # Buy signal
+        df.loc[df["short_wma"] < df["long_wma"], "signal"] = -1  # Sell signal
 
-    # Generate buy/sell signals
-    df["signal"] = 0
-    df.loc[df["short_wma"] > df["long_wma"], "signal"] = 1  # Buy signal
-    df.loc[df["short_wma"] < df["long_wma"], "signal"] = -1  # Sell signal
-
-    # Convert results back to lists for API-friendly output, replacing NaN with None
-    return {
-        "short_wma": [
-            None if pd.isna(x) else float(x) for x in df["short_wma"].tolist()
-        ],
-        "long_wma": [None if pd.isna(x) else float(x) for x in df["long_wma"].tolist()],
-        "signals": df["signal"].tolist(),
-    }
+        # Convert results back to lists for API-friendly output, replacing NaN with None
+        return {
+            "short_wma": [
+                None if pd.isna(x) else float(x) for x in df["short_wma"].tolist()
+            ],
+            "long_wma": [
+                None if pd.isna(x) else float(x) for x in df["long_wma"].tolist()
+            ],
+            "signals": df["signal"].tolist(),
+        }
+    except Exception as e:
+        return {"error": str(e)}

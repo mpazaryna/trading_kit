@@ -4,6 +4,8 @@ from typing import List
 
 import pandas as pd
 
+from trading_kit.exceptions import InvalidDataError, InvalidThresholdError
+
 
 def calculate_z_score(data: List[float]) -> List[float]:
     """
@@ -17,7 +19,17 @@ def calculate_z_score(data: List[float]) -> List[float]:
 
     Returns:
         List[float]: The Z-score of the input data, which can be used to assess price deviations.
+
+    Raises:
+        ValueError: If the input data is not a list of floats or if the list is empty.
     """
+    if not isinstance(data, list):
+        raise InvalidDataError("Input data must be a list.")
+    if not all(isinstance(x, (int, float)) for x in data):
+        raise InvalidDataError("All elements in the input data must be numbers.")
+    if len(data) == 0:
+        raise InvalidDataError("Input data list cannot be empty.")
+
     data_series = pd.Series(data)
     z_scores = (data_series - data_series.mean()) / data_series.std()
     return z_scores.tolist()
@@ -43,7 +55,26 @@ def generate_mean_reversion_signals(
         A buy signal (1) indicates a potential long position,
         a sell signal (-1) indicates a potential short position,
         and a hold signal (0) indicates no action.
+
+    Raises:
+        ValueError: If the input data is not a list of floats, if the list is empty,
+                    or if the thresholds are not floats.
     """
+    if not isinstance(data, list):
+        raise InvalidDataError("Input data must be a list.")
+    if not all(isinstance(x, (int, float)) for x in data):
+        raise InvalidDataError("All elements in the input data must be numbers.")
+    if len(data) == 0:
+        raise InvalidDataError("Input data list cannot be empty.")
+    if not isinstance(entry_threshold, (int, float)):
+        raise InvalidThresholdError("Entry threshold must be a number.")
+    if not isinstance(exit_threshold, (int, float)):
+        raise InvalidThresholdError("Exit threshold must be a number.")
+    if entry_threshold < 0:
+        raise InvalidThresholdError("Entry threshold must be non-negative.")
+    if exit_threshold < 0:
+        raise InvalidThresholdError("Exit threshold must be non-negative.")
+
     z_scores = calculate_z_score(data)
     signals = [0] * len(data)
 
