@@ -267,7 +267,7 @@ def calculate_ema(data: List[float], window: int) -> List[Optional[float]]:
                 previous_ema = ema[i - 1]
                 if previous_ema is None:
                     raise InvalidDataError(
-                        f"Unexpected None value at index {i-1} in EMA calculation."
+                        f"Unexpected None value at index {i - 1} in EMA calculation."
                     )
                 ema[i] = alpha * data[i] + (1 - alpha) * previous_ema
     except Exception as e:
@@ -342,7 +342,7 @@ def calculate_ema_pure(data: List[float], window: int) -> List[Optional[float]]:
                 previous_ema = ema[i - 1]
                 if previous_ema is None:
                     raise InvalidDataError(
-                        f"Unexpected None value at index {i-1} in EMA calculation."
+                        f"Unexpected None value at index {i - 1} in EMA calculation."
                     )
                 ema[i] = alpha * data[i] + (1 - alpha) * previous_ema
     except Exception as e:

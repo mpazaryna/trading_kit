@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 import numpy as np
 import pandas as pd
@@ -12,7 +12,7 @@ def pandas_api_analyze_stock_trends(
     short_window: int = 10,
     long_window: int = 30,
     precision: int = 2,
-) -> Dict[str, List[Optional[float]]]:
+) -> Dict[str, Union[List[Optional[float]], List[int], str]]:
     """
     Analyze stock price trends using Weighted Moving Averages (WMA) with pandas operations.
 
@@ -34,11 +34,12 @@ def pandas_api_analyze_stock_trends(
 
     Returns:
     --------
-    Dict[str, List[Optional[float]]]
+    Dict[str, Union[List[Optional[float]], List[int], str]]
         A dictionary containing:
         - 'short_wma': List of short-term WMA values (None for initial periods)
         - 'long_wma': List of long-term WMA values (None for initial periods)
         - 'signals': List of buy/sell signals (1 for buy, -1 for sell, 0 for hold)
+        - 'error': Error message if an exception occurs
     """
     try:
         # Validate input lengths
