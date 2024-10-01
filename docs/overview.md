@@ -27,7 +27,7 @@ The `trading_kit` module is designed to provide a comprehensive set of tools for
 
 - [x] Momentum Strategies
 - [x] Mean Reversion Strategies
-- [ ] Breakout Strategies
+- [x] Breakout Strategies
 - [ ] Pairs Trading
 - [ ] Arbitrage Strategies
 - [x] Weighted Mean Averages
