@@ -3,6 +3,8 @@ from typing import Dict, List, Optional
 import numpy as np
 import pandas as pd
 
+from trading_kit.exceptions import InvalidDataError, InvalidWindowSizeError
+
 
 def pandas_api_analyze_stock_trends(
     dates: List[str],
@@ -41,7 +43,7 @@ def pandas_api_analyze_stock_trends(
     try:
         # Validate input lengths
         if len(dates) != len(prices):
-            raise ValueError("The length of dates and prices must be the same.")
+            raise InvalidDataError("The length of dates and prices must be the same.")
 
         # Convert input data to pandas DataFrame
         df = pd.DataFrame({"date": pd.to_datetime(dates), "price": prices})
@@ -50,7 +52,7 @@ def pandas_api_analyze_stock_trends(
         # Calculate Weighted Moving Averages
         def weighted_moving_average(data, window):
             if window <= 0:
-                raise ValueError("Window size must be a positive integer.")
+                raise InvalidWindowSizeError("Window size must be a positive integer.")
             weights = pd.Series(range(1, window + 1))
             return data.rolling(window=window).apply(
                 lambda x: (x * weights).sum() / weights.sum()

@@ -41,6 +41,12 @@ from typing import List, Optional
 import numpy as np
 import pandas as pd
 
+from trading_kit.exceptions import (
+    InvalidDataError,
+    InvalidWindowSizeError,
+    TradingKitError,
+)
+
 
 def calculate_sma(data: List[float], window: int) -> List[Optional[float]]:
     """
@@ -88,11 +94,11 @@ def calculate_sma(data: List[float], window: int) -> List[Optional[float]]:
     """
     # Input validation
     if not isinstance(data, list) or not all(isinstance(x, (int, float)) for x in data):
-        raise ValueError("Data must be a list of numerical values.")
+        raise InvalidDataError("Data must be a list of numerical values.")
     if not isinstance(window, int) or window <= 0:
-        raise ValueError("Window size must be a positive integer.")
+        raise InvalidWindowSizeError("Window size must be a positive integer.")
     if len(data) < window:
-        raise ValueError(
+        raise InvalidWindowSizeError(
             "Data length must be greater than or equal to the window size."
         )
 
@@ -101,7 +107,7 @@ def calculate_sma(data: List[float], window: int) -> List[Optional[float]]:
         sma = series.rolling(window=window).mean()
         return [None if pd.isna(x) else float(x) for x in sma]
     except Exception as e:
-        raise RuntimeError(f"An error occurred while calculating SMA: {e}")
+        raise TradingKitError(f"An error occurred while calculating SMA: {e}")
 
 
 def calculate_wma(data: List[float], window: int) -> List[Optional[float]]:
@@ -148,11 +154,11 @@ def calculate_wma(data: List[float], window: int) -> List[Optional[float]]:
     """
     # Input validation
     if not isinstance(data, list) or not all(isinstance(x, (int, float)) for x in data):
-        raise ValueError("Data must be a list of numerical values.")
+        raise InvalidDataError("Data must be a list of numerical values.")
     if not isinstance(window, int) or window <= 0:
-        raise ValueError("Window size must be a positive integer.")
+        raise InvalidWindowSizeError("Window size must be a positive integer.")
     if len(data) < window:
-        raise ValueError(
+        raise InvalidWindowSizeError(
             "Data length must be greater than or equal to the window size."
         )
 
@@ -164,7 +170,7 @@ def calculate_wma(data: List[float], window: int) -> List[Optional[float]]:
         )
         return [None if pd.isna(x) else float(x) for x in wma]
     except Exception as e:
-        raise RuntimeError(f"An error occurred while calculating WMA: {e}")
+        raise TradingKitError(f"An error occurred while calculating WMA: {e}")
 
 
 def calculate_wma_precision(
@@ -172,15 +178,15 @@ def calculate_wma_precision(
 ) -> List[Optional[float]]:
     # Input validation
     if not isinstance(data, list) or not all(isinstance(x, (int, float)) for x in data):
-        raise ValueError("Data must be a list of numerical values.")
+        raise InvalidDataError("Data must be a list of numerical values.")
     if not isinstance(window, int) or window <= 0:
-        raise ValueError("Window size must be a positive integer.")
+        raise InvalidWindowSizeError("Window size must be a positive integer.")
     if len(data) < window:
-        raise ValueError(
+        raise InvalidWindowSizeError(
             "Data length must be greater than or equal to the window size."
         )
     if not isinstance(precision, int) or precision < 0:
-        raise ValueError("Precision must be a non-negative integer.")
+        raise InvalidDataError("Precision must be a non-negative integer.")
 
     try:
         series = pd.Series(data)
@@ -190,7 +196,7 @@ def calculate_wma_precision(
         )
         return [None if pd.isna(x) else round(float(x), precision) for x in wma]
     except Exception as e:
-        raise RuntimeError(
+        raise TradingKitError(
             f"An error occurred while calculating WMA with precision: {e}"
         )
 
@@ -240,11 +246,11 @@ def calculate_ema(data: List[float], window: int) -> List[Optional[float]]:
     """
     # Input validation
     if not isinstance(data, list) or not all(isinstance(x, (int, float)) for x in data):
-        raise ValueError("Data must be a list of numerical values.")
+        raise InvalidDataError("Data must be a list of numerical values.")
     if not isinstance(window, int) or window <= 0:
-        raise ValueError("Window size must be a positive integer.")
+        raise InvalidWindowSizeError("Window size must be a positive integer.")
     if len(data) < window:
-        raise ValueError(
+        raise InvalidWindowSizeError(
             "Data length must be greater than or equal to the window size."
         )
 
@@ -260,12 +266,12 @@ def calculate_ema(data: List[float], window: int) -> List[Optional[float]]:
             else:
                 previous_ema = ema[i - 1]
                 if previous_ema is None:
-                    raise ValueError(
+                    raise InvalidDataError(
                         f"Unexpected None value at index {i-1} in EMA calculation."
                     )
                 ema[i] = alpha * data[i] + (1 - alpha) * previous_ema
     except Exception as e:
-        raise RuntimeError(f"An error occurred while calculating EMA: {e}")
+        raise TradingKitError(f"An error occurred while calculating EMA: {e}")
 
     return ema
 
@@ -315,11 +321,11 @@ def calculate_ema_pure(data: List[float], window: int) -> List[Optional[float]]:
     """
     # Input validation
     if not isinstance(data, list) or not all(isinstance(x, (int, float)) for x in data):
-        raise ValueError("Data must be a list of numerical values.")
+        raise InvalidDataError("Data must be a list of numerical values.")
     if not isinstance(window, int) or window <= 0:
-        raise ValueError("Window size must be a positive integer.")
+        raise InvalidWindowSizeError("Window size must be a positive integer.")
     if len(data) < window:
-        raise ValueError(
+        raise InvalidWindowSizeError(
             "Data length must be greater than or equal to the window size."
         )
 
@@ -335,11 +341,11 @@ def calculate_ema_pure(data: List[float], window: int) -> List[Optional[float]]:
             else:
                 previous_ema = ema[i - 1]
                 if previous_ema is None:
-                    raise ValueError(
+                    raise InvalidDataError(
                         f"Unexpected None value at index {i-1} in EMA calculation."
                     )
                 ema[i] = alpha * data[i] + (1 - alpha) * previous_ema
     except Exception as e:
-        raise RuntimeError(f"An error occurred while calculating EMA: {e}")
+        raise TradingKitError(f"An error occurred while calculating EMA: {e}")
 
     return ema

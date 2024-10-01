@@ -1,5 +1,6 @@
 import pytest
 
+from trading_kit.exceptions import InvalidThresholdError
 from trading_kit.portfolio.position_sizing import calculate_position_size
 
 
@@ -21,5 +22,5 @@ def test_calculate_position_size():
 
 
 def test_invalid_stop_loss():
-    with pytest.raises(ValueError):
+    with pytest.raises(InvalidThresholdError):
         calculate_position_size(10000, 1, 50, 50)  # Stop loss equal to entry price

@@ -2,6 +2,12 @@ from typing import Any, Callable, Dict
 
 import pandas as pd
 
+from trading_kit.exceptions import (
+    InvalidDataError,
+    InvalidThresholdError,
+    TradingKitError,
+)
+
 
 def backtest_strategy(
     data: dict, strategy_func: Callable[..., Dict[str, Any]], **params
@@ -27,14 +33,11 @@ def backtest_strategy(
         # ... additional backtesting logic ...
         return signals  # Placeholder for results
     except KeyError as e:
-        print(f"KeyError: Missing key in data - {e}")
-        return {}
+        raise InvalidDataError(f"Missing key in data - {e}")
     except TypeError as e:
-        print(f"TypeError: Incorrect data type - {e}")
-        return {}
+        raise InvalidDataError(f"Incorrect data type - {e}")
     except Exception as e:
-        print(f"An unexpected error occurred: {e}")
-        return {}
+        raise TradingKitError(f"An unexpected error occurred: {e}")
 
 
 def calculate_performance(results: dict) -> dict:
@@ -63,14 +66,10 @@ def calculate_performance(results: dict) -> dict:
 
         return {"sharpe_ratio": sharpe_ratio}
     except KeyError as e:
-        print(f"KeyError: Missing key in results - {e}")
-        return {"sharpe_ratio": 0}
+        raise InvalidDataError(f"Missing key in results - {e}")
     except TypeError as e:
-        print(f"TypeError: Incorrect data type - {e}")
-        return {"sharpe_ratio": 0}
+        raise InvalidDataError(f"Incorrect data type - {e}")
     except ZeroDivisionError as e:
-        print(f"ZeroDivisionError: Division by zero - {e}")
-        return {"sharpe_ratio": 0}
+        raise InvalidThresholdError(f"Division by zero - {e}")
     except Exception as e:
-        print(f"An unexpected error occurred: {e}")
-        return {"sharpe_ratio": 0}
+        raise TradingKitError(f"An unexpected error occurred: {e}")

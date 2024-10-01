@@ -1,3 +1,6 @@
+from trading_kit.exceptions import InvalidDataError, TradingKitError
+
+
 class OrderType:
     """Base class for order types."""
 
@@ -10,7 +13,7 @@ class MarketOrder(OrderType):
 
     def __init__(self, quantity: int):
         if quantity <= 0:
-            raise ValueError("Quantity must be a positive integer.")
+            raise InvalidDataError("Quantity must be a positive integer.")
         self.quantity = quantity
 
     def execute(self):
@@ -18,7 +21,7 @@ class MarketOrder(OrderType):
             # Simulate execution logic
             return f"Executed Market Order for {self.quantity} units."
         except Exception as e:
-            return f"Failed to execute Market Order: {e}"
+            raise TradingKitError(f"Failed to execute Market Order: {e}")
 
 
 class LimitOrder(OrderType):
@@ -26,9 +29,9 @@ class LimitOrder(OrderType):
 
     def __init__(self, quantity: int, price: float):
         if quantity <= 0:
-            raise ValueError("Quantity must be a positive integer.")
+            raise InvalidDataError("Quantity must be a positive integer.")
         if price <= 0:
-            raise ValueError("Price must be a positive float.")
+            raise InvalidDataError("Price must be a positive float.")
         self.quantity = quantity
         self.price = price
 
@@ -37,7 +40,7 @@ class LimitOrder(OrderType):
             # Simulate execution logic
             return f"Executed Limit Order for {self.quantity} units at ${self.price}."
         except Exception as e:
-            return f"Failed to execute Limit Order: {e}"
+            raise TradingKitError(f"Failed to execute Limit Order: {e}")
 
 
 # Additional order types can be added here...

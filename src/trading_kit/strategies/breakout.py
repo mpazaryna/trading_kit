@@ -25,6 +25,8 @@ Example:
 
 import pandas as pd
 
+from trading_kit.exceptions import InvalidDataError, InvalidThresholdError
+
 
 def identify_breakout(data, resistance_level):
     """
@@ -50,11 +52,11 @@ def identify_breakout(data, resistance_level):
         # Output: ['2023-01-02', '2023-01-03']
     """
     if not isinstance(data, dict):
-        raise ValueError("Data must be a dictionary.")
+        raise InvalidDataError("Data must be a dictionary.")
     if "date" not in data or "close" not in data:
-        raise ValueError("Data dictionary must contain 'date' and 'close' keys.")
+        raise InvalidDataError("Data dictionary must contain 'date' and 'close' keys.")
     if not isinstance(resistance_level, (int, float)):
-        raise ValueError("Resistance level must be a number.")
+        raise InvalidThresholdError("Resistance level must be a number.")
 
     df = pd.DataFrame(data)
     breakout_dates = df[df["close"] > resistance_level]["date"].tolist()
@@ -85,11 +87,11 @@ def generate_trading_signals(data, resistance_level):
         # Output: ['hold', 'buy', 'buy']
     """
     if not isinstance(data, dict):
-        raise ValueError("Data must be a dictionary.")
+        raise InvalidDataError("Data must be a dictionary.")
     if "date" not in data or "close" not in data:
-        raise ValueError("Data dictionary must contain 'date' and 'close' keys.")
+        raise InvalidDataError("Data dictionary must contain 'date' and 'close' keys.")
     if not isinstance(resistance_level, (int, float)):
-        raise ValueError("Resistance level must be a number.")
+        raise InvalidThresholdError("Resistance level must be a number.")
 
     df = pd.DataFrame(data)
     df["signal"] = df["close"].apply(

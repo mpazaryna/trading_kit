@@ -13,6 +13,8 @@ Limitations:
 - The function assumes that the input parameters are valid and does not perform extensive validation.
 """
 
+from trading_kit.exceptions import InvalidDataError, InvalidThresholdError
+
 
 def calculate_position_size(
     account_balance: float,
@@ -37,25 +39,25 @@ def calculate_position_size(
     """
     # Ensure the stop loss price is less than the entry price to avoid invalid trades
     if stop_loss_price >= entry_price:
-        raise ValueError("Stop loss price must be less than entry price.")
+        raise InvalidThresholdError("Stop loss price must be less than entry price.")
 
     # Ensure account balance is positive
     if account_balance <= 0:
-        raise ValueError("Account balance must be greater than zero.")
+        raise InvalidDataError("Account balance must be greater than zero.")
 
     # Ensure risk per trade is a positive percentage
     if risk_per_trade <= 0 or risk_per_trade > 100:
-        raise ValueError(
+        raise InvalidThresholdError(
             "Risk per trade must be a positive percentage (0 < risk_per_trade <= 100)."
         )
 
     # Ensure entry price is positive
     if entry_price <= 0:
-        raise ValueError("Entry price must be greater than zero.")
+        raise InvalidDataError("Entry price must be greater than zero.")
 
     # Ensure stop loss price is positive
     if stop_loss_price <= 0:
-        raise ValueError("Stop loss price must be greater than zero.")
+        raise InvalidDataError("Stop loss price must be greater than zero.")
 
     # Calculate the total amount of money to risk on this trade
     risk_amount = account_balance * (
