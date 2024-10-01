@@ -86,9 +86,22 @@ def calculate_sma(data: List[float], window: int) -> List[Optional[float]]:
     >>> calculate_sma(data, window=3)
     [None, None, 2.0, 3.0, 4.0]
     """
-    series = pd.Series(data)
-    sma = series.rolling(window=window).mean()
-    return [None if pd.isna(x) else float(x) for x in sma]
+    # Input validation
+    if not isinstance(data, list) or not all(isinstance(x, (int, float)) for x in data):
+        raise ValueError("Data must be a list of numerical values.")
+    if not isinstance(window, int) or window <= 0:
+        raise ValueError("Window size must be a positive integer.")
+    if len(data) < window:
+        raise ValueError(
+            "Data length must be greater than or equal to the window size."
+        )
+
+    try:
+        series = pd.Series(data)
+        sma = series.rolling(window=window).mean()
+        return [None if pd.isna(x) else float(x) for x in sma]
+    except Exception as e:
+        raise RuntimeError(f"An error occurred while calculating SMA: {e}")
 
 
 def calculate_wma(data: List[float], window: int) -> List[Optional[float]]:
@@ -133,76 +146,53 @@ def calculate_wma(data: List[float], window: int) -> List[Optional[float]]:
     >>> calculate_wma(data, window=3)
     [None, None, 2.3333333333333335, 3.3333333333333335, 4.333333333333333]
     """
-    series = pd.Series(data)
-    weights = pd.Series(range(1, window + 1))  # Create weights [1, 2, ..., window]
-    wma = series.rolling(window).apply(
-        lambda prices: (prices * weights).sum() / weights.sum(), raw=True
-    )
-    return [None if pd.isna(x) else float(x) for x in wma]
+    # Input validation
+    if not isinstance(data, list) or not all(isinstance(x, (int, float)) for x in data):
+        raise ValueError("Data must be a list of numerical values.")
+    if not isinstance(window, int) or window <= 0:
+        raise ValueError("Window size must be a positive integer.")
+    if len(data) < window:
+        raise ValueError(
+            "Data length must be greater than or equal to the window size."
+        )
+
+    try:
+        series = pd.Series(data)
+        weights = pd.Series(range(1, window + 1))  # Create weights [1, 2, ..., window]
+        wma = series.rolling(window).apply(
+            lambda prices: (prices * weights).sum() / weights.sum(), raw=True
+        )
+        return [None if pd.isna(x) else float(x) for x in wma]
+    except Exception as e:
+        raise RuntimeError(f"An error occurred while calculating WMA: {e}")
 
 
 def calculate_wma_precision(
     data: List[float], window: int, precision: int = 2
 ) -> List[Optional[float]]:
-    """
-    Calculate Weighted Moving Average (WMA) with variable precision.
+    # Input validation
+    if not isinstance(data, list) or not all(isinstance(x, (int, float)) for x in data):
+        raise ValueError("Data must be a list of numerical values.")
+    if not isinstance(window, int) or window <= 0:
+        raise ValueError("Window size must be a positive integer.")
+    if len(data) < window:
+        raise ValueError(
+            "Data length must be greater than or equal to the window size."
+        )
+    if not isinstance(precision, int) or precision < 0:
+        raise ValueError("Precision must be a non-negative integer.")
 
-    This function computes the Weighted Moving Average of a given pandas Series,
-    allowing for a specified level of precision in the results. The WMA gives
-    higher weights to more recent data points within the specified window.
-
-    Real-World Usage:
-    -----------------
-    Acme Corp, a leading financial services company, uses the WMA with variable
-    precision to analyze stock price movements and make informed trading decisions.
-    By adjusting the precision, Acme's analysts can tailor their analysis to different
-    asset types and trading strategies. For instance, in high-frequency trading, Acme
-    requires higher precision to capture small price movements, while in long-term
-    investing, a lower precision suffices.
-
-    Acme's trading algorithms leverage the WMA to detect short-term trends and momentum
-    shifts in volatile markets. By assigning more weight to recent prices, the WMA
-    helps Acme's traders identify potential entry and exit points, optimizing their
-    trading performance. The flexibility to adjust precision allows Acme to fine-tune
-    their analysis, ensuring they stay ahead in the competitive financial markets.
-
-    Parameters:
-    -----------
-    data : List[float]
-        A list of numerical data points (e.g., stock prices).
-
-    window : int
-        The size of the moving window. This determines how many previous data
-        points are considered in each WMA calculation. Must be a positive integer.
-
-    precision : int, optional (default=2)
-        The number of decimal places to round the results to. This allows for
-        adjustable precision based on the specific requirements of the trading
-        strategy or the asset being analyzed.
-
-    Returns:
-    --------
-    List[Optional[float]]
-        A list containing the calculated WMA values rounded to the specified precision.
-        The first (window - 1) elements will be None, as there are not enough previous
-        data points to calculate the WMA.
-
-    Examples:
-    ---------
-    >>> data = [100, 102, 104, 106, 108]
-    >>> calculate_wma_precision(data, window=3, precision=2)
-    [None, None, 102.67, 104.67, 106.67]
-
-    >>> calculate_wma_precision(data, window=3, precision=4)
-    [None, None, 102.6667, 104.6667, 106.6667]
-    """
-    series = pd.Series(data)
-    weights = pd.Series(range(1, window + 1))
-    wma = series.rolling(window).apply(
-        lambda prices: (prices * weights).sum() / weights.sum(), raw=True
-    )
-    # Round the results to the specified precision
-    return [None if pd.isna(x) else round(float(x), precision) for x in wma]
+    try:
+        series = pd.Series(data)
+        weights = pd.Series(range(1, window + 1))
+        wma = series.rolling(window).apply(
+            lambda prices: (prices * weights).sum() / weights.sum(), raw=True
+        )
+        return [None if pd.isna(x) else round(float(x), precision) for x in wma]
+    except Exception as e:
+        raise RuntimeError(
+            f"An error occurred while calculating WMA with precision: {e}"
+        )
 
 
 def calculate_ema(data: List[float], window: int) -> List[Optional[float]]:
@@ -248,22 +238,35 @@ def calculate_ema(data: List[float], window: int) -> List[Optional[float]]:
     >>> calculate_ema(data, window=3)
     [None, None, 2.0, 3.5, 4.25]
     """
-    if window <= 0:
-        raise ValueError("Window size must be a positive integer")
+    # Input validation
+    if not isinstance(data, list) or not all(isinstance(x, (int, float)) for x in data):
+        raise ValueError("Data must be a list of numerical values.")
+    if not isinstance(window, int) or window <= 0:
+        raise ValueError("Window size must be a positive integer.")
+    if len(data) < window:
+        raise ValueError(
+            "Data length must be greater than or equal to the window size."
+        )
 
     ema: List[Optional[float]] = [None] * len(data)
     alpha = 2 / (window + 1)
-    for i in range(len(data)):
-        if i < window - 1:
-            ema[i] = None
-        elif i == window - 1:
-            ema[i] = sum(data[:window]) / window
-        else:
-            previous_ema = ema[i - 1] if ema[i - 1] is not None else 0.0
-            assert (
-                previous_ema is not None
-            )  # Ensure type checker knows this is not None
-            ema[i] = alpha * data[i] + (1 - alpha) * previous_ema
+
+    try:
+        for i in range(len(data)):
+            if i < window - 1:
+                ema[i] = None
+            elif i == window - 1:
+                ema[i] = sum(data[:window]) / window
+            else:
+                previous_ema = ema[i - 1]
+                if previous_ema is None:
+                    raise ValueError(
+                        f"Unexpected None value at index {i-1} in EMA calculation."
+                    )
+                ema[i] = alpha * data[i] + (1 - alpha) * previous_ema
+    except Exception as e:
+        raise RuntimeError(f"An error occurred while calculating EMA: {e}")
+
     return ema
 
 
@@ -310,20 +313,33 @@ def calculate_ema_pure(data: List[float], window: int) -> List[Optional[float]]:
     >>> calculate_ema_pure(data, window=3)
     [None, None, 2.0, 3.5, 4.25]
     """
-    if window <= 0:
-        raise ValueError("Window size must be a positive integer")
+    # Input validation
+    if not isinstance(data, list) or not all(isinstance(x, (int, float)) for x in data):
+        raise ValueError("Data must be a list of numerical values.")
+    if not isinstance(window, int) or window <= 0:
+        raise ValueError("Window size must be a positive integer.")
+    if len(data) < window:
+        raise ValueError(
+            "Data length must be greater than or equal to the window size."
+        )
 
     ema: List[Optional[float]] = [None] * len(data)
     alpha = 2 / (window + 1)
-    for i in range(len(data)):
-        if i == 0:
-            ema[i] = data[i]
-        elif i < window - 1:
-            ema[i] = None
-        else:
-            previous_ema = ema[i - 1] if ema[i - 1] is not None else 0.0
-            assert (
-                previous_ema is not None
-            )  # Ensure type checker knows this is not None
-            ema[i] = alpha * data[i] + (1 - alpha) * previous_ema
+
+    try:
+        for i in range(len(data)):
+            if i == 0:
+                ema[i] = data[i]
+            elif i < window - 1:
+                ema[i] = None
+            else:
+                previous_ema = ema[i - 1]
+                if previous_ema is None:
+                    raise ValueError(
+                        f"Unexpected None value at index {i-1} in EMA calculation."
+                    )
+                ema[i] = alpha * data[i] + (1 - alpha) * previous_ema
+    except Exception as e:
+        raise RuntimeError(f"An error occurred while calculating EMA: {e}")
+
     return ema
