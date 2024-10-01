@@ -254,15 +254,14 @@ def calculate_ema(data: List[float], window: int) -> List[Optional[float]]:
     ema = [None] * len(data)
     alpha = 2 / (window + 1)
     for i in range(len(data)):
-        if i == 0:
-            ema[i] = data[i]
-        elif i < window - 1:
+        if i < window - 1:
             ema[i] = None
+        elif i == window - 1:
+            ema[i] = (
+                sum(data[:window]) / window
+            )  # Simple average for the first EMA value
         else:
-            if ema[i - 1] is None:
-                ema[i] = data[i]
-            else:
-                ema[i] = alpha * data[i] + (1 - alpha) * ema[i - 1]
+            ema[i] = alpha * data[i] + (1 - alpha) * ema[i - 1]
     return ema
 
 

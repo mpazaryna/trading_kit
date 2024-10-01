@@ -100,6 +100,8 @@ def test_calculate_ema():
     [None, None, 2.0, 3.5, 4.25]
     """
     data = [1, 2, 3, 4, 5]
-    expected = [None, None, 2.0, 3.5, 4.25]  # EMA with window=3
+    expected = [None, None, 2.0, 3.0, 4.0]  # EMA with window=3
     result = calculate_ema(data, window=3)
+    print(f"Expected: {expected}")
+    print(f"Result: {result}")
     assert result == expected
