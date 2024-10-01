@@ -26,6 +26,14 @@
             <input type="search" placeholder="Search..." role="searchbox" aria-label="search"
                    pattern=".+" required>
 
+            <h2>Contents</h2>
+            <ul>
+  <li><a href="#momentum-trading-strategy">Momentum Trading Strategy:</a></li>
+  <li><a href="#key-concepts">Key Concepts:</a></li>
+  <li><a href="#usage">Usage:</a></li>
+  <li><a href="#example">Example:</a></li>
+</ul>
+
 
 
             <h2>API Documentation</h2>
@@ -64,31 +72,116 @@
                     <h1 class="modulename">
 <a href="./../../../src.html">src</a><wbr>.<a href="./../../trading_kit.html">trading_kit</a><wbr>.<a href="./../strategies.html">strategies</a><wbr>.momentum    </h1>
 
-                
+                        <div class="docstring"><p>momentum.py</p>
+
+<p>This module implements a simple Momentum trading strategy.</p>
+
+<h2 id="momentum-trading-strategy">Momentum Trading Strategy:</h2>
+
+<p>Momentum trading is a strategy that aims to capitalize on the continuance of existing trends in the market. 
+The core idea is to buy assets that have shown an upward trend and sell those that have shown a downward trend. 
+This strategy assumes that assets which have performed well in the past will continue to perform well in the future, 
+and those that have performed poorly will continue to perform poorly.</p>
+
+<h2 id="key-concepts">Key Concepts:</h2>
+
+<ol>
+<li><strong>Momentum</strong>: The rate of acceleration of a security's price or volume. In this strategy, momentum is calculated 
+as the difference between the current price and the previous price.</li>
+<li><strong>Signals</strong>: Trading signals are generated based on the momentum. A positive momentum generates a buy signal, 
+while a negative momentum generates a sell signal. No change in momentum results in a hold signal.</li>
+</ol>
+
+<h2 id="usage">Usage:</h2>
+
+<ol>
+<li>Initialize the strategy with historical price data and parameters.</li>
+<li>Call the <code>generate_signals</code> method to get the trading signals.</li>
+</ol>
+
+<h2 id="example">Example:</h2>
+
+<p>from trading_kit.strategies.momentum import MomentumStrategy</p>
+
+<p>data = [100, 102, 101, 105, 107]
+params = {"threshold": 1.0}</p>
+
+<p>strategy = MomentumStrategy(data, params)
+signals = strategy.generate_signals()
+print(signals)  # Output: [0, 1, -1, 1, 1]</p>
+</div>
+
                         <input id="mod-momentum-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
                         <label class="view-source-button" for="mod-momentum-view-source"><span>View Source</span></label>
 
-                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a>
-</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a>
+                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="sd">momentum.py</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a>
+</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="sd">This module implements a simple Momentum trading strategy.</span>
 </span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="k">class</span> <span class="nc">MomentumStrategy</span><span class="p">:</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple Momentum trading strategy implementation.&quot;&quot;&quot;</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="sd">Momentum Trading Strategy:</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="sd">---------------------------</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="sd">Momentum trading is a strategy that aims to capitalize on the continuance of existing trends in the market. </span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd">The core idea is to buy assets that have shown an upward trend and sell those that have shown a downward trend. </span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd">This strategy assumes that assets which have performed well in the past will continue to perform well in the future, </span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">and those that have performed poorly will continue to perform poorly.</span>
 </span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>    <span class="k">def</span> <span class="nf">generate_signals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate trading signals based on momentum.&quot;&quot;&quot;</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>        <span class="n">momentum</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>        <span class="p">]</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>        <span class="n">signals</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">momentum</span><span class="p">]</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>        <span class="k">return</span> <span class="n">signals</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd">Key Concepts:</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">--------------</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">1. **Momentum**: The rate of acceleration of a security&#39;s price or volume. In this strategy, momentum is calculated </span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="sd">   as the difference between the current price and the previous price.</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="sd">2. **Signals**: Trading signals are generated based on the momentum. A positive momentum generates a buy signal, </span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="sd">   while a negative momentum generates a sell signal. No change in momentum results in a hold signal.</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a><span class="sd">Usage:</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="sd">-------</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="sd">1. Initialize the strategy with historical price data and parameters.</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="sd">2. Call the `generate_signals` method to get the trading signals.</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a><span class="sd">Example:</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a><span class="sd">--------</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a><span class="sd">from trading_kit.strategies.momentum import MomentumStrategy</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="sd">data = [100, 102, 101, 105, 107]</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="sd">params = {&quot;threshold&quot;: 1.0}</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="sd">strategy = MomentumStrategy(data, params)</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="sd">signals = strategy.generate_signals()</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="sd">print(signals)  # Output: [0, 1, -1, 1, 1]</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="kn">from</span> <span class="nn">trading_kit.exceptions</span> <span class="kn">import</span> <span class="n">InvalidDataError</span><span class="p">,</span> <span class="n">InvalidThresholdError</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="k">class</span> <span class="nc">MomentumStrategy</span><span class="p">:</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple Momentum trading strategy implementation.&quot;&quot;&quot;</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>            <span class="k">raise</span> <span class="n">InvalidDataError</span><span class="p">(</span><span class="s2">&quot;Input data must be a list.&quot;</span><span class="p">)</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">):</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>            <span class="k">raise</span> <span class="n">InvalidDataError</span><span class="p">(</span><span class="s2">&quot;All elements in data must be int or float.&quot;</span><span class="p">)</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>    <span class="k">def</span> <span class="nf">generate_signals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate trading signals based on momentum.&quot;&quot;&quot;</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>        <span class="k">if</span> <span class="s2">&quot;threshold&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;threshold&quot;</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a>        <span class="p">):</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>            <span class="k">raise</span> <span class="n">InvalidThresholdError</span><span class="p">(</span><span class="s2">&quot;Threshold must be an int or float.&quot;</span><span class="p">)</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>        <span class="n">momentum</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>        <span class="p">]</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>        <span class="n">signals</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">momentum</span><span class="p">]</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>        <span class="k">return</span> <span class="n">signals</span>
 </span></pre></div>
 
 
@@ -104,21 +197,30 @@
 
     </div>
     <a class="headerlink" href="#MomentumStrategy"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="MomentumStrategy-7"><a href="#MomentumStrategy-7"><span class="linenos"> 7</span></a><span class="k">class</span> <span class="nc">MomentumStrategy</span><span class="p">:</span>
-</span><span id="MomentumStrategy-8"><a href="#MomentumStrategy-8"><span class="linenos"> 8</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple Momentum trading strategy implementation.&quot;&quot;&quot;</span>
-</span><span id="MomentumStrategy-9"><a href="#MomentumStrategy-9"><span class="linenos"> 9</span></a>
-</span><span id="MomentumStrategy-10"><a href="#MomentumStrategy-10"><span class="linenos">10</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
-</span><span id="MomentumStrategy-11"><a href="#MomentumStrategy-11"><span class="linenos">11</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
-</span><span id="MomentumStrategy-12"><a href="#MomentumStrategy-12"><span class="linenos">12</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
-</span><span id="MomentumStrategy-13"><a href="#MomentumStrategy-13"><span class="linenos">13</span></a>
-</span><span id="MomentumStrategy-14"><a href="#MomentumStrategy-14"><span class="linenos">14</span></a>    <span class="k">def</span> <span class="nf">generate_signals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-</span><span id="MomentumStrategy-15"><a href="#MomentumStrategy-15"><span class="linenos">15</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate trading signals based on momentum.&quot;&quot;&quot;</span>
-</span><span id="MomentumStrategy-16"><a href="#MomentumStrategy-16"><span class="linenos">16</span></a>        <span class="n">momentum</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="MomentumStrategy-17"><a href="#MomentumStrategy-17"><span class="linenos">17</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
-</span><span id="MomentumStrategy-18"><a href="#MomentumStrategy-18"><span class="linenos">18</span></a>            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-</span><span id="MomentumStrategy-19"><a href="#MomentumStrategy-19"><span class="linenos">19</span></a>        <span class="p">]</span>
-</span><span id="MomentumStrategy-20"><a href="#MomentumStrategy-20"><span class="linenos">20</span></a>        <span class="n">signals</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">momentum</span><span class="p">]</span>
-</span><span id="MomentumStrategy-21"><a href="#MomentumStrategy-21"><span class="linenos">21</span></a>        <span class="k">return</span> <span class="n">signals</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="MomentumStrategy-45"><a href="#MomentumStrategy-45"><span class="linenos">45</span></a><span class="k">class</span> <span class="nc">MomentumStrategy</span><span class="p">:</span>
+</span><span id="MomentumStrategy-46"><a href="#MomentumStrategy-46"><span class="linenos">46</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple Momentum trading strategy implementation.&quot;&quot;&quot;</span>
+</span><span id="MomentumStrategy-47"><a href="#MomentumStrategy-47"><span class="linenos">47</span></a>
+</span><span id="MomentumStrategy-48"><a href="#MomentumStrategy-48"><span class="linenos">48</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+</span><span id="MomentumStrategy-49"><a href="#MomentumStrategy-49"><span class="linenos">49</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+</span><span id="MomentumStrategy-50"><a href="#MomentumStrategy-50"><span class="linenos">50</span></a>            <span class="k">raise</span> <span class="n">InvalidDataError</span><span class="p">(</span><span class="s2">&quot;Input data must be a list.&quot;</span><span class="p">)</span>
+</span><span id="MomentumStrategy-51"><a href="#MomentumStrategy-51"><span class="linenos">51</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">):</span>
+</span><span id="MomentumStrategy-52"><a href="#MomentumStrategy-52"><span class="linenos">52</span></a>            <span class="k">raise</span> <span class="n">InvalidDataError</span><span class="p">(</span><span class="s2">&quot;All elements in data must be int or float.&quot;</span><span class="p">)</span>
+</span><span id="MomentumStrategy-53"><a href="#MomentumStrategy-53"><span class="linenos">53</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+</span><span id="MomentumStrategy-54"><a href="#MomentumStrategy-54"><span class="linenos">54</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
+</span><span id="MomentumStrategy-55"><a href="#MomentumStrategy-55"><span class="linenos">55</span></a>
+</span><span id="MomentumStrategy-56"><a href="#MomentumStrategy-56"><span class="linenos">56</span></a>    <span class="k">def</span> <span class="nf">generate_signals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+</span><span id="MomentumStrategy-57"><a href="#MomentumStrategy-57"><span class="linenos">57</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate trading signals based on momentum.&quot;&quot;&quot;</span>
+</span><span id="MomentumStrategy-58"><a href="#MomentumStrategy-58"><span class="linenos">58</span></a>        <span class="k">if</span> <span class="s2">&quot;threshold&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+</span><span id="MomentumStrategy-59"><a href="#MomentumStrategy-59"><span class="linenos">59</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;threshold&quot;</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+</span><span id="MomentumStrategy-60"><a href="#MomentumStrategy-60"><span class="linenos">60</span></a>        <span class="p">):</span>
+</span><span id="MomentumStrategy-61"><a href="#MomentumStrategy-61"><span class="linenos">61</span></a>            <span class="k">raise</span> <span class="n">InvalidThresholdError</span><span class="p">(</span><span class="s2">&quot;Threshold must be an int or float.&quot;</span><span class="p">)</span>
+</span><span id="MomentumStrategy-62"><a href="#MomentumStrategy-62"><span class="linenos">62</span></a>
+</span><span id="MomentumStrategy-63"><a href="#MomentumStrategy-63"><span class="linenos">63</span></a>        <span class="n">momentum</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="MomentumStrategy-64"><a href="#MomentumStrategy-64"><span class="linenos">64</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+</span><span id="MomentumStrategy-65"><a href="#MomentumStrategy-65"><span class="linenos">65</span></a>            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+</span><span id="MomentumStrategy-66"><a href="#MomentumStrategy-66"><span class="linenos">66</span></a>        <span class="p">]</span>
+</span><span id="MomentumStrategy-67"><a href="#MomentumStrategy-67"><span class="linenos">67</span></a>        <span class="n">signals</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">momentum</span><span class="p">]</span>
+</span><span id="MomentumStrategy-68"><a href="#MomentumStrategy-68"><span class="linenos">68</span></a>        <span class="k">return</span> <span class="n">signals</span>
 </span></pre></div>
 
 
@@ -136,9 +238,13 @@
 
     </div>
     <a class="headerlink" href="#MomentumStrategy.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="MomentumStrategy.__init__-10"><a href="#MomentumStrategy.__init__-10"><span class="linenos">10</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
-</span><span id="MomentumStrategy.__init__-11"><a href="#MomentumStrategy.__init__-11"><span class="linenos">11</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
-</span><span id="MomentumStrategy.__init__-12"><a href="#MomentumStrategy.__init__-12"><span class="linenos">12</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="MomentumStrategy.__init__-48"><a href="#MomentumStrategy.__init__-48"><span class="linenos">48</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+</span><span id="MomentumStrategy.__init__-49"><a href="#MomentumStrategy.__init__-49"><span class="linenos">49</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+</span><span id="MomentumStrategy.__init__-50"><a href="#MomentumStrategy.__init__-50"><span class="linenos">50</span></a>            <span class="k">raise</span> <span class="n">InvalidDataError</span><span class="p">(</span><span class="s2">&quot;Input data must be a list.&quot;</span><span class="p">)</span>
+</span><span id="MomentumStrategy.__init__-51"><a href="#MomentumStrategy.__init__-51"><span class="linenos">51</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">):</span>
+</span><span id="MomentumStrategy.__init__-52"><a href="#MomentumStrategy.__init__-52"><span class="linenos">52</span></a>            <span class="k">raise</span> <span class="n">InvalidDataError</span><span class="p">(</span><span class="s2">&quot;All elements in data must be int or float.&quot;</span><span class="p">)</span>
+</span><span id="MomentumStrategy.__init__-53"><a href="#MomentumStrategy.__init__-53"><span class="linenos">53</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+</span><span id="MomentumStrategy.__init__-54"><a href="#MomentumStrategy.__init__-54"><span class="linenos">54</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
 </span></pre></div>
 
 
@@ -178,14 +284,19 @@
 
     </div>
     <a class="headerlink" href="#MomentumStrategy.generate_signals"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="MomentumStrategy.generate_signals-14"><a href="#MomentumStrategy.generate_signals-14"><span class="linenos">14</span></a>    <span class="k">def</span> <span class="nf">generate_signals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-</span><span id="MomentumStrategy.generate_signals-15"><a href="#MomentumStrategy.generate_signals-15"><span class="linenos">15</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate trading signals based on momentum.&quot;&quot;&quot;</span>
-</span><span id="MomentumStrategy.generate_signals-16"><a href="#MomentumStrategy.generate_signals-16"><span class="linenos">16</span></a>        <span class="n">momentum</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="MomentumStrategy.generate_signals-17"><a href="#MomentumStrategy.generate_signals-17"><span class="linenos">17</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
-</span><span id="MomentumStrategy.generate_signals-18"><a href="#MomentumStrategy.generate_signals-18"><span class="linenos">18</span></a>            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-</span><span id="MomentumStrategy.generate_signals-19"><a href="#MomentumStrategy.generate_signals-19"><span class="linenos">19</span></a>        <span class="p">]</span>
-</span><span id="MomentumStrategy.generate_signals-20"><a href="#MomentumStrategy.generate_signals-20"><span class="linenos">20</span></a>        <span class="n">signals</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">momentum</span><span class="p">]</span>
-</span><span id="MomentumStrategy.generate_signals-21"><a href="#MomentumStrategy.generate_signals-21"><span class="linenos">21</span></a>        <span class="k">return</span> <span class="n">signals</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="MomentumStrategy.generate_signals-56"><a href="#MomentumStrategy.generate_signals-56"><span class="linenos">56</span></a>    <span class="k">def</span> <span class="nf">generate_signals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+</span><span id="MomentumStrategy.generate_signals-57"><a href="#MomentumStrategy.generate_signals-57"><span class="linenos">57</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate trading signals based on momentum.&quot;&quot;&quot;</span>
+</span><span id="MomentumStrategy.generate_signals-58"><a href="#MomentumStrategy.generate_signals-58"><span class="linenos">58</span></a>        <span class="k">if</span> <span class="s2">&quot;threshold&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+</span><span id="MomentumStrategy.generate_signals-59"><a href="#MomentumStrategy.generate_signals-59"><span class="linenos">59</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;threshold&quot;</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+</span><span id="MomentumStrategy.generate_signals-60"><a href="#MomentumStrategy.generate_signals-60"><span class="linenos">60</span></a>        <span class="p">):</span>
+</span><span id="MomentumStrategy.generate_signals-61"><a href="#MomentumStrategy.generate_signals-61"><span class="linenos">61</span></a>            <span class="k">raise</span> <span class="n">InvalidThresholdError</span><span class="p">(</span><span class="s2">&quot;Threshold must be an int or float.&quot;</span><span class="p">)</span>
+</span><span id="MomentumStrategy.generate_signals-62"><a href="#MomentumStrategy.generate_signals-62"><span class="linenos">62</span></a>
+</span><span id="MomentumStrategy.generate_signals-63"><a href="#MomentumStrategy.generate_signals-63"><span class="linenos">63</span></a>        <span class="n">momentum</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="MomentumStrategy.generate_signals-64"><a href="#MomentumStrategy.generate_signals-64"><span class="linenos">64</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+</span><span id="MomentumStrategy.generate_signals-65"><a href="#MomentumStrategy.generate_signals-65"><span class="linenos">65</span></a>            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+</span><span id="MomentumStrategy.generate_signals-66"><a href="#MomentumStrategy.generate_signals-66"><span class="linenos">66</span></a>        <span class="p">]</span>
+</span><span id="MomentumStrategy.generate_signals-67"><a href="#MomentumStrategy.generate_signals-67"><span class="linenos">67</span></a>        <span class="n">signals</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">momentum</span><span class="p">]</span>
+</span><span id="MomentumStrategy.generate_signals-68"><a href="#MomentumStrategy.generate_signals-68"><span class="linenos">68</span></a>        <span class="k">return</span> <span class="n">signals</span>
 </span></pre></div>
 
 
