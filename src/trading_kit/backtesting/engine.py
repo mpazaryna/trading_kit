@@ -1,7 +1,11 @@
+from typing import Any, Callable, Dict
+
 import pandas as pd
 
 
-def backtest_strategy(data: dict, strategy_func, **params) -> dict:
+def backtest_strategy(
+    data: dict, strategy_func: Callable[..., Dict[str, Any]], **params
+) -> dict:
     """
     Run backtest on the given strategy function.
 
@@ -18,9 +22,19 @@ def backtest_strategy(data: dict, strategy_func, **params) -> dict:
     Returns:
     - dict: A dictionary containing the generated trading signals.
     """
-    signals = strategy_func(data, **params)
-    # ... additional backtesting logic ...
-    return signals  # Placeholder for results
+    try:
+        signals = strategy_func(data, **params)
+        # ... additional backtesting logic ...
+        return signals  # Placeholder for results
+    except KeyError as e:
+        print(f"KeyError: Missing key in data - {e}")
+        return {}
+    except TypeError as e:
+        print(f"TypeError: Incorrect data type - {e}")
+        return {}
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        return {}
 
 
 def calculate_performance(results: dict) -> dict:
@@ -36,14 +50,27 @@ def calculate_performance(results: dict) -> dict:
     Returns:
     - dict: A dictionary containing performance metrics, such as the Sharpe ratio.
     """
-    returns = results.get("returns", [])
-    if not returns:
+    try:
+        returns = results.get("returns", [])
+        if not returns:
+            return {"sharpe_ratio": 0}
+
+        mean_return = sum(returns) / len(returns)
+        std_dev_return = (
+            sum((x - mean_return) ** 2 for x in returns) / (len(returns) - 1)
+        ) ** 0.5  # Using sample standard deviation
+        sharpe_ratio = mean_return / std_dev_return if std_dev_return != 0 else 0
+
+        return {"sharpe_ratio": sharpe_ratio}
+    except KeyError as e:
+        print(f"KeyError: Missing key in results - {e}")
         return {"sharpe_ratio": 0}
-
-    mean_return = sum(returns) / len(returns)
-    std_dev_return = (
-        sum((x - mean_return) ** 2 for x in returns) / (len(returns) - 1)
-    ) ** 0.5  # Using sample standard deviation
-    sharpe_ratio = mean_return / std_dev_return if std_dev_return != 0 else 0
-
-    return {"sharpe_ratio": sharpe_ratio}
+    except TypeError as e:
+        print(f"TypeError: Incorrect data type - {e}")
+        return {"sharpe_ratio": 0}
+    except ZeroDivisionError as e:
+        print(f"ZeroDivisionError: Division by zero - {e}")
+        return {"sharpe_ratio": 0}
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        return {"sharpe_ratio": 0}

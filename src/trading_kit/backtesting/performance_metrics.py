@@ -12,6 +12,12 @@ def sharpe_ratio(returns: list[float], risk_free_rate: float = 0.0) -> float:
     Returns:
     - float: The Sharpe Ratio.
     """
+    if not returns:
+        raise ValueError("The returns list cannot be empty.")
+
+    if not all(isinstance(r, (int, float)) for r in returns):
+        raise TypeError("All elements in the returns list must be numeric.")
+
     returns_array = np.array(returns)
     excess_returns = returns_array - risk_free_rate
     mean_excess_return = np.mean(excess_returns)
