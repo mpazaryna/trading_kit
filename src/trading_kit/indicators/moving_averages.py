@@ -1,3 +1,41 @@
+"""
+This module provides functions to calculate various types of moving averages,
+which are commonly used in technical analysis to smooth out price data and
+identify trends in financial markets.
+
+Concept of the Window:
+----------------------
+The 'window' parameter is a critical concept in the calculation of moving averages.
+It defines the number of data points considered in each calculation of the moving
+average. The window size determines how many previous data points are included in
+the average, affecting the sensitivity and smoothness of the resulting moving average.
+
+- A smaller window size results in a moving average that is more sensitive to recent
+  price changes, making it more responsive to short-term fluctuations.
+- A larger window size produces a smoother moving average that is less sensitive to
+  short-term volatility, providing a clearer view of the long-term trend.
+
+For example, in a 10-day moving average, the window size is 10, meaning that each
+calculation of the moving average includes the most recent 10 data points.
+
+Functions:
+----------
+- calculate_sma(data: List[float], window: int) -> List[Optional[float]]:
+    Calculate the Simple Moving Average (SMA) for a given list of data points.
+
+- calculate_wma(data: List[float], window: int) -> List[Optional[float]]:
+    Calculate the Weighted Moving Average (WMA) for a given list of data points.
+
+- calculate_wma_precision(data: List[float], window: int, precision: int = 2) -> List[Optional[float]]:
+    Calculate the Weighted Moving Average (WMA) with variable precision for a given list of data points.
+
+- calculate_ema(data: List[float], window: int) -> List[Optional[float]]:
+    Calculate the Exponential Moving Average (EMA) for a given list of data points.
+
+- calculate_ema_pure(data: List[float], window: int) -> List[Optional[float]]:
+    Calculate the Exponential Moving Average (EMA) for a given list of data points using a pure Python implementation.
+"""
+
 from typing import List, Optional
 
 import numpy as np
@@ -115,16 +153,18 @@ def calculate_wma_precision(
 
     Real-World Usage:
     -----------------
-    The WMA with variable precision is particularly useful in financial applications
-    where the required precision may vary based on the asset type, trading frequency,
-    or regulatory requirements. For example, in high-frequency trading, a higher
-    precision may be required to capture small price movements, while in long-term
-    investing, a lower precision may be sufficient.
+    Acme Corp, a leading financial services company, uses the WMA with variable
+    precision to analyze stock price movements and make informed trading decisions.
+    By adjusting the precision, Acme's analysts can tailor their analysis to different
+    asset types and trading strategies. For instance, in high-frequency trading, Acme
+    requires higher precision to capture small price movements, while in long-term
+    investing, a lower precision suffices.
 
-    By allowing for adjustable precision, this function provides flexibility for
-    different trading strategies and asset types. Traders can use the WMA with
-    variable precision to fine-tune their analysis and make more informed trading
-    decisions based on the specific requirements of their strategy.
+    Acme's trading algorithms leverage the WMA to detect short-term trends and momentum
+    shifts in volatile markets. By assigning more weight to recent prices, the WMA
+    helps Acme's traders identify potential entry and exit points, optimizing their
+    trading performance. The flexibility to adjust precision allows Acme to fine-tune
+    their analysis, ensuring they stay ahead in the competitive financial markets.
 
     Parameters:
     -----------
