@@ -48,6 +48,17 @@ def pre_commit(c):
 
 
 @task
+def pdoc(c):
+    """
+    Generate API documentation using pdoc.
+
+    Args:
+        c: The context object provided by Invoke.
+    """
+    c.run("pdoc ./src -o docs_api")
+
+
+@task
 def all(c):
     """
     Run all tasks: format, lint, and test.
