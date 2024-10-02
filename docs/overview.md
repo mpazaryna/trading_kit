@@ -39,6 +39,7 @@ The `trading_kit` module is designed to provide a comprehensive set of tools for
 - [ ] Stop Orders
 - [ ] Trailing Stop Orders
 - [ ] Bracket Orders
+- [x] Order Types
 
 ### Portfolio Management
 
